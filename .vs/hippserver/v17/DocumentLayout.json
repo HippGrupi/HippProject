@@ -1,0 +1,334 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\infrastructure\\data\\dataseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\infrastructure\\data\\dataseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\models\\dtos\\requests\\createuserrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\models\\dtos\\requests\\createuserrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\services\\implementations\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\services\\implementations\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\models\\dtos\\responses\\authresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\models\\dtos\\responses\\authresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\models\\dtos\\responses\\roleresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\models\\dtos\\responses\\roleresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\models\\dtos\\responses\\userresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\models\\dtos\\responses\\userresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\models\\entities\\applicationrole.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\models\\entities\\applicationrole.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\models\\entities\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\models\\entities\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\models\\enums\\userroles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\models\\enums\\userroles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\services\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\services\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\controllers\\profilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\controllers\\profilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\controllers\\rolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\controllers\\rolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\models\\dtos\\requests\\adminupdatepasswordrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\models\\dtos\\requests\\adminupdatepasswordrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\services\\implementations\\jwtservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\services\\implementations\\jwtservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|c:\\users\\hp\\desktop\\hipp.net\\backend\\hippserver\\hippserver\\services\\interfaces\\ijwtservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5E57B1B-FB28-4D95-9180-11F472271CF8}|hippserver\\hippserver.csproj|solutionrelative:hippserver\\services\\interfaces\\ijwtservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AuthResponse.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\DTOs\\Responses\\AuthResponse.cs",
+              "RelativeDocumentMoniker": "hippserver\\Models\\DTOs\\Responses\\AuthResponse.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\DTOs\\Responses\\AuthResponse.cs",
+              "RelativeToolTip": "hippserver\\Models\\DTOs\\Responses\\AuthResponse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T17:26:17.082Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Services\\Implementations\\UserService.cs",
+              "RelativeDocumentMoniker": "hippserver\\Services\\Implementations\\UserService.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Services\\Implementations\\UserService.cs",
+              "RelativeToolTip": "hippserver\\Services\\Implementations\\UserService.cs",
+              "ViewState": "AQIAAAcBAAAAAAAAAAAAAIoAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-27T21:32:04.457Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CreateUserRequest.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\DTOs\\Requests\\CreateUserRequest.cs",
+              "RelativeDocumentMoniker": "hippserver\\Models\\DTOs\\Requests\\CreateUserRequest.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\DTOs\\Requests\\CreateUserRequest.cs",
+              "RelativeToolTip": "hippserver\\Models\\DTOs\\Requests\\CreateUserRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAABFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T17:06:04.504Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DataSeeder.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Infrastructure\\Data\\DataSeeder.cs",
+              "RelativeDocumentMoniker": "hippserver\\Infrastructure\\Data\\DataSeeder.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Infrastructure\\Data\\DataSeeder.cs",
+              "RelativeToolTip": "hippserver\\Infrastructure\\Data\\DataSeeder.cs",
+              "ViewState": "AQIAAIgAAAAAAAAAAAAcwJsAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T10:53:43.125Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RoleResponse.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\DTOs\\Responses\\RoleResponse.cs",
+              "RelativeDocumentMoniker": "hippserver\\Models\\DTOs\\Responses\\RoleResponse.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\DTOs\\Responses\\RoleResponse.cs",
+              "RelativeToolTip": "hippserver\\Models\\DTOs\\Responses\\RoleResponse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T17:26:15.57Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ApplicationRole.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\Entities\\ApplicationRole.cs",
+              "RelativeDocumentMoniker": "hippserver\\Models\\Entities\\ApplicationRole.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\Entities\\ApplicationRole.cs",
+              "RelativeToolTip": "hippserver\\Models\\Entities\\ApplicationRole.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T17:26:10.643Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ApplicationUser.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\Entities\\ApplicationUser.cs",
+              "RelativeDocumentMoniker": "hippserver\\Models\\Entities\\ApplicationUser.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\Entities\\ApplicationUser.cs",
+              "RelativeToolTip": "hippserver\\Models\\Entities\\ApplicationUser.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T17:26:09.13Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UserRoles.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\Enums\\UserRoles.cs",
+              "RelativeDocumentMoniker": "hippserver\\Models\\Enums\\UserRoles.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\Enums\\UserRoles.cs",
+              "RelativeToolTip": "hippserver\\Models\\Enums\\UserRoles.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T17:25:40.946Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserResponse.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\DTOs\\Responses\\UserResponse.cs",
+              "RelativeDocumentMoniker": "hippserver\\Models\\DTOs\\Responses\\UserResponse.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\DTOs\\Responses\\UserResponse.cs",
+              "RelativeToolTip": "hippserver\\Models\\DTOs\\Responses\\UserResponse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAABFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T16:58:15.555Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "RoleController.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Controllers\\RoleController.cs",
+              "RelativeDocumentMoniker": "hippserver\\Controllers\\RoleController.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Controllers\\RoleController.cs",
+              "RelativeToolTip": "hippserver\\Controllers\\RoleController.cs",
+              "ViewState": "AQIAACwAAAAAAAAAAAAgwA0AAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T12:53:52.961Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IUserService.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Services\\Interfaces\\IUserService.cs",
+              "RelativeDocumentMoniker": "hippserver\\Services\\Interfaces\\IUserService.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Services\\Interfaces\\IUserService.cs",
+              "RelativeToolTip": "hippserver\\Services\\Interfaces\\IUserService.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAuwBQAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T17:02:29.811Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "hippserver\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "hippserver\\Controllers\\AuthController.cs",
+              "ViewState": "AQIAAB8AAAAAAAAAAADwvysAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T12:51:25.91Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ProfileController.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Controllers\\ProfileController.cs",
+              "RelativeDocumentMoniker": "hippserver\\Controllers\\ProfileController.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Controllers\\ProfileController.cs",
+              "RelativeToolTip": "hippserver\\Controllers\\ProfileController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T11:42:48.948Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Program.cs",
+              "RelativeDocumentMoniker": "hippserver\\Program.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Program.cs",
+              "RelativeToolTip": "hippserver\\Program.cs",
+              "ViewState": "AQIAAM4AAAAAAAAAAAAgwG0AAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T08:47:16.859Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "hippserver\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Controllers\\UserController.cs",
+              "RelativeToolTip": "hippserver\\Controllers\\UserController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T12:52:05.977Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AdminUpdatePasswordRequest.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\DTOs\\Requests\\AdminUpdatePasswordRequest.cs",
+              "RelativeDocumentMoniker": "hippserver\\Models\\DTOs\\Requests\\AdminUpdatePasswordRequest.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Models\\DTOs\\Requests\\AdminUpdatePasswordRequest.cs",
+              "RelativeToolTip": "hippserver\\Models\\DTOs\\Requests\\AdminUpdatePasswordRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T12:51:10.402Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "JwtService.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Services\\Implementations\\JwtService.cs",
+              "RelativeDocumentMoniker": "hippserver\\Services\\Implementations\\JwtService.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Services\\Implementations\\JwtService.cs",
+              "RelativeToolTip": "hippserver\\Services\\Implementations\\JwtService.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABoAAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T12:43:00.273Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "IJwtService.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Services\\Interfaces\\IJwtService.cs",
+              "RelativeDocumentMoniker": "hippserver\\Services\\Interfaces\\IJwtService.cs",
+              "ToolTip": "C:\\Users\\HP\\Desktop\\Hipp.NET\\backend\\hippserver\\hippserver\\Services\\Interfaces\\IJwtService.cs",
+              "RelativeToolTip": "hippserver\\Services\\Interfaces\\IJwtService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T12:42:37.374Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
