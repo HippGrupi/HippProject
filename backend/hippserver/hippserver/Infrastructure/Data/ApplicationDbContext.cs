@@ -28,9 +28,11 @@ namespace hippserver.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
             // Apply Configurations from Configurations Folder
             builder.ApplyConfiguration(new ProductWarehouseConfiguration());
             builder.ApplyConfiguration(new OrderProductConfiguration());
+            builder.ApplyConfiguration(new DriverOrderConfiguration());
 
             builder.Entity<ApplicationUser>(entity =>
             {
@@ -42,7 +44,13 @@ namespace hippserver.Infrastructure.Data
                 entity.ToTable(name: "ApplicationRoles");
             });
 
-            
+            builder.Entity<Client>()
+                   .HasOne(c => c.SalesPerson)
+                   .WithMany(sp => sp.Clients)
+                   .HasForeignKey(c => c.SalesPersonId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+
         }
     }
 }

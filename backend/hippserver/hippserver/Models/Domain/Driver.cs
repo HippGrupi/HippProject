@@ -1,4 +1,6 @@
-﻿namespace hippserver.Models.Domain
+﻿using hippserver.Models.JunctionTables;
+
+namespace hippserver.Models.Domain
 {
     public class Driver
     {
@@ -8,5 +10,7 @@
         public string? LicensePlate { get; set; }
         public string? CarModel { get; set; }
         public Region Region { get; set; }
+
+        public ICollection<DriverOrder> DriverOrders { get; set; } = new List<DriverOrder>();
     }
 }
