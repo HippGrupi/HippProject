@@ -78,6 +78,7 @@ namespace hippserver
 
         private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
+
             // Controllers
             services.AddControllers()
                     .AddJsonOptions(options =>
@@ -122,10 +123,10 @@ namespace hippserver
                     }
                 });
             });
+            
 
-           
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(EnvHelper.GetConnectionString()));
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
            
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
@@ -138,7 +139,7 @@ namespace hippserver
 
            
             services.AddScoped<IDbConnection>(sp =>
-                new SqlConnection(EnvHelper.GetConnectionString()));
+                new SqlConnection(configuration.GetConnectionString("DefaultConnection")));
 
 
             // Identity

@@ -7,5 +7,6 @@
         public string? Password { get; set; } 
         public string? LicensePlate { get; set; }
         public string? CarModel { get; set; }
+        public Region Region { get; set; }
     }
 }
