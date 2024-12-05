@@ -27,17 +27,17 @@ namespace hippserver
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Load environment variables
+           
             Env.Load();
 
 
 
-            // Add services to the container
+           
             ConfigureServices(builder.Services, builder.Configuration);
 
             var app = builder.Build();
 
-            // Seed data
+           
             await SeedDataAsync(app);
 
 
@@ -123,21 +123,20 @@ namespace hippserver
                 });
             });
 
-            // Database Context
+           
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(EnvHelper.GetConnectionString()));
 
-            // Base Repository 
+           
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             
-            // User Repository
+            
             services.AddScoped<IUserRepository, UserRepository>();
 
-            // Register Services
-            services.AddScoped<IUserService, UserService>();  // Add this line
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IJwtService, JwtService>();
 
-            // Dapper DB Connection
+           
             services.AddScoped<IDbConnection>(sp =>
                 new SqlConnection(EnvHelper.GetConnectionString()));
 
