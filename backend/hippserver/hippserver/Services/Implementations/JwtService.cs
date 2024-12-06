@@ -21,32 +21,35 @@ public class JwtService : IJwtService
     public string GenerateToken(ApplicationUser user, IList<string> roles)
     {
         var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim("Id", user.Id),
-            new Claim("FirstName", user.FirstName),
-            new Claim("LastName", user.LastName)
-        };
+    {
+        new Claim("Id", user.Id), // Custom Claim
+        new Claim("FirstName", user.FirstName), // Custom Claim
+        new Claim("LastName", user.LastName), // Custom Claim
+        new Claim("Email", user.Email) // Custom Claim
+    };
 
-        // Add roles to claims
+        // Add roles as custom claims
         foreach (var role in roles)
         {
-            claims.Add(new Claim(ClaimTypes.Role, role));
+            claims.Add(new Claim("Role", role)); // Custom Claim for Role
         }
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        var token = new JwtSecurityToken(
-            issuer: _jwtSettings.Issuer,
-            audience: _jwtSettings.Audience,
-            claims: claims,
-            signingCredentials: credentials
-        );
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(claims),
+            
+            SigningCredentials = credentials,
+            Issuer = _jwtSettings.Issuer,
+            Audience = _jwtSettings.Audience
+        };
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+
+        return tokenHandler.WriteToken(token);
     }
 
     public ClaimsPrincipal ValidateToken(string token)

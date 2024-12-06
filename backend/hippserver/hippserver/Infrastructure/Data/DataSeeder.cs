@@ -44,24 +44,14 @@ public class DataSeeder
 
         foreach (var roleName in roles)
         {
-            _logger.LogInformation("Checking role: {RoleName}", roleName);
+
 
             if (!await _roleManager.RoleExistsAsync(roleName))
             {
-                _logger.LogInformation("Creating role: {RoleName}", roleName);
+
                 var role = new ApplicationRole { Name = roleName };
                 var result = await _roleManager.CreateAsync(role);
 
-                if (result.Succeeded)
-                    _logger.LogInformation("Successfully created role: {RoleName}", roleName);
-                else
-                    _logger.LogError("Failed to create role: {RoleName}. Errors: {Errors}",
-                        roleName,
-                        string.Join(", ", result.Errors.Select(e => e.Description)));
-            }
-            else
-            {
-                _logger.LogInformation("Role already exists: {RoleName}", roleName);
             }
         }
     }
@@ -71,7 +61,7 @@ public class DataSeeder
         var adminUsername = "HippAdmin";
         var adminPassword = "HippAdmin123!";
 
-        _logger.LogInformation("Starting admin user creation process...");
+       
 
         try
         {
@@ -79,7 +69,7 @@ public class DataSeeder
 
             if (adminUser == null)
             {
-                _logger.LogInformation("Admin user does not exist. Creating new admin user...");
+               
 
                 adminUser = new ApplicationUser
                 {
@@ -94,58 +84,30 @@ public class DataSeeder
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("Admin user created successfully. Adding to Admin role...");
+
 
                     // Make sure the Admin role exists before assigning
                     if (await _roleManager.RoleExistsAsync("Admin"))
                     {
                         result = await _userManager.AddToRoleAsync(adminUser, "Admin");
 
-                        if (result.Succeeded)
-                        {
-                            _logger.LogInformation("Admin role assigned successfully");
-                        }
-                        else
-                        {
-                            _logger.LogError("Failed to assign Admin role. Errors: {Errors}",
-                                string.Join(", ", result.Errors.Select(e => e.Description)));
-                        }
+
                     }
-                    else
-                    {
-                        _logger.LogError("Admin role does not exist. Cannot assign role to user.");
-                    }
-                }
-                else
-                {
-                    _logger.LogError("Failed to create admin user. Errors: {Errors}",
-                        string.Join(", ", result.Errors.Select(e => e.Description)));
                 }
             }
             else
             {
-                _logger.LogInformation("Admin user already exists. Checking role assignment...");
+                
 
                 // Check if user is in Admin role
                 if (!await _userManager.IsInRoleAsync(adminUser, "Admin"))
                 {
-                    _logger.LogInformation("Adding existing admin user to Admin role...");
+                   
                     var result = await _userManager.AddToRoleAsync(adminUser, "Admin");
 
-                    if (result.Succeeded)
-                    {
-                        _logger.LogInformation("Admin role assigned successfully to existing user");
-                    }
-                    else
-                    {
-                        _logger.LogError("Failed to assign Admin role to existing user. Errors: {Errors}",
-                            string.Join(", ", result.Errors.Select(e => e.Description)));
-                    }
+                    
                 }
-                else
-                {
-                    _logger.LogInformation("Admin user already has Admin role assigned");
-                }
+                
             }
         }
         catch (Exception ex)

@@ -12,15 +12,19 @@ namespace hippserver.Services.Implementations
         private readonly IUserRepository _userRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<UserService> _logger;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
         public UserService(
             IUserRepository userRepository,
             UserManager<ApplicationUser> userManager,
-            ILogger<UserService> logger) : base(userRepository)
+            ILogger<UserService> logger,
+            RoleManager<ApplicationRole> roleManager) : base(userRepository)
         {
             _userRepository = userRepository;
             _userManager = userManager;
             _logger = logger;
+            _roleManager = roleManager;
+
         }
 
         public async Task<IEnumerable<UserResponse>> GetAllAsync()
@@ -55,17 +59,19 @@ namespace hippserver.Services.Implementations
 
         public async Task<UserResponse> CreateUserAsync(CreateUserRequest request)
         {
-            _logger.LogInformation("Creating new user with username: {Username}", request.Username);
+            if (!await _roleManager.RoleExistsAsync(request.Role))
+            {
+                throw new InvalidOperationException($"Role '{request.Role}' does not exist.");
+            }
 
             if (await _userRepository.IsEmailUniqueAsync(request.Email) == false)
             {
-                _logger.LogWarning("Email already in use: {Email}", request.Email);
                 throw new InvalidOperationException("Email is already in use");
             }
 
             if (await _userRepository.IsUsernameUniqueAsync(request.Username) == false)
             {
-                _logger.LogWarning("Username already in use: {Username}", request.Username);
+               
                 throw new InvalidOperationException("Username is already in use");
             }
 
@@ -75,29 +81,35 @@ namespace hippserver.Services.Implementations
                 Email = request.Email,
                 FirstName = request.FirstName ?? string.Empty,
                 LastName = request.LastName ?? string.Empty,
-                EmailConfirmed = true // Set to true since we're creating from admin
+                EmailConfirmed = true,
+                //Role = request.Role,
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
             if (!result.Succeeded)
             {
                 var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                _logger.LogError("Failed to create user. Errors: {Errors}", errors);
+               
                 throw new InvalidOperationException($"Failed to create user: {errors}");
             }
+            var roleResult = await _userManager.AddToRoleAsync(user, request.Role);
+            if (!roleResult.Succeeded)
+            {
+                var errors = string.Join(", ", roleResult.Errors.Select(e => e.Description));
+                throw new InvalidOperationException($"Failed to assign role '{request.Role}' to user: {errors}");
+            }
 
-            _logger.LogInformation("Successfully created user with ID: {UserId}", user.Id);
             return MapToUserResponse(user);
         }
 
         public async Task<UserResponse> UpdateUserAsync(string id, UpdateUserRequest request)
         {
-            _logger.LogInformation("Updating user with ID: {UserId}", id);
+            
 
             var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
             {
-                _logger.LogWarning("User not found with ID: {UserId}", id);
+               
                 throw new InvalidOperationException("User not found");
             }
 
@@ -109,22 +121,22 @@ namespace hippserver.Services.Implementations
             if (!result.Succeeded)
             {
                 var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                _logger.LogError("Failed to update user. Errors: {Errors}", errors);
+                
                 throw new InvalidOperationException($"Failed to update user: {errors}");
             }
 
-            _logger.LogInformation("Successfully updated user with ID: {UserId}", id);
+          
             return MapToUserResponse(user);
         }
 
         public async Task<bool> DeleteAsync(string id)
         {
-            _logger.LogInformation("Deleting user with ID: {UserId}", id);
+           
 
             var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
             {
-                _logger.LogWarning("User not found with ID: {UserId}", id);
+               
                 return false;
             }
 
@@ -132,11 +144,11 @@ namespace hippserver.Services.Implementations
             if (!result.Succeeded)
             {
                 var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                _logger.LogError("Failed to delete user. Errors: {Errors}", errors);
+                
                 return false;
             }
 
-            _logger.LogInformation("Successfully deleted user with ID: {UserId}", id);
+         
             return true;
         }
 
