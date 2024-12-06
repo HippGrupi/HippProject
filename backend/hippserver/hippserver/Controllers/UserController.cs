@@ -9,146 +9,86 @@ namespace hippserver.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = UserRoles.Admin)] // Ensures only admins can access these endpoints
+    [Authorize(Roles = UserRoles.Admin)]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly ILogger<UserController> _logger;
 
-        public UserController(
-            IUserService userService,
-            ILogger<UserController> logger)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            _logger = logger;
         }
 
+        // Get all users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserResponse>>> GetAll()
+        public async Task<IActionResult> GetAllUsers()
         {
-            try
-            {
-                var users = await _userService.GetAllAsync();
-                return Ok(users);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving users");
-                return StatusCode(500, new { message = "An error occurred while retrieving users" });
-            }
+            var users = await _userService.GetAllUsersAsync();
+            return Ok(users);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserResponse>> GetById(string id)
-        {
-            try
-            {
-                var user = await _userService.GetByIdAsync(id);
-                if (user == null)
-                    return NotFound(new { message = "User not found" });
-
-                return Ok(user);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving user {UserId}", id);
-                return StatusCode(500, new { message = "An error occurred while retrieving the user" });
-            }
-        }
-
+        // Add a new user
         [HttpPost]
-        public async Task<ActionResult<UserResponse>> Create([FromBody] CreateUserRequest request)
+        [Authorize(Roles = "Admin")]
+       [Authorize(UserRoles.Admin)]
+        public async Task<IActionResult> AddUser([FromBody] CreateUserRequest request)
         {
             try
             {
                 var user = await _userService.CreateUserAsync(request);
-                return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
-            }
-            catch (InvalidOperationException ex)
-            {
-                _logger.LogWarning(ex, "Invalid operation while creating user");
-                return BadRequest(new { message = ex.Message });
+                return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error creating user");
-                return StatusCode(500, new { message = "An error occurred while creating the user" });
+                return BadRequest(new { message = ex.Message });
             }
         }
 
+        // Get a user by ID
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(string id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+                return NotFound(new { message = "User not found" });
+
+            return Ok(user);
+        }
+
+
+       
+        // Update a user's details
         [HttpPut("{id}")]
-        public async Task<ActionResult<UserResponse>> Update(string id, [FromBody] UpdateUserRequest request)
+        public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserRequest request)
         {
             try
             {
                 var user = await _userService.UpdateUserAsync(id, request);
                 return Ok(user);
             }
-            catch (InvalidOperationException ex)
+            catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Invalid operation while updating user {UserId}", id);
                 return BadRequest(new { message = ex.Message });
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error updating user {UserId}", id);
-                return StatusCode(500, new { message = "An error occurred while updating the user" });
-            }
-
-        }
-        [HttpPost("{id}/reset-password")]
-        public async Task<IActionResult> AdminResetPassword(string id, [FromBody] AdminUpdatePasswordRequest request)
-        {
-            try
-            {
-                var result = await _userService.AdminUpdatePasswordAsync(id, request);
-                if (!result)
-                    return BadRequest(new { message = "Failed to update password" });
-
-                return Ok(new { message = "Password updated successfully" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error resetting password for user {UserId}", id);
-                return StatusCode(500, new { message = "An error occurred while resetting the password" });
-            }
         }
 
+       
+        // Delete a user
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
             try
             {
-                var result = await _userService.DeleteAsync(id);
+                var result = await _userService.DeleteUserAsync(id);
                 if (!result)
                     return NotFound(new { message = "User not found" });
 
-                return NoContent();
+                return Ok(new { message = "User deleted successfully" });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error deleting user {UserId}", id);
-                return StatusCode(500, new { message = "An error occurred while deleting the user" });
-            }
-        }
-
-        [HttpGet("by-email/{email}")]
-        public async Task<ActionResult<UserResponse>> GetByEmail(string email)
-        {
-            try
-            {
-                var user = await _userService.GetByEmailAsync(email);
-                if (user == null)
-                    return NotFound(new { message = "User not found" });
-
-                return Ok(user);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving user by email {Email}", email);
-                return StatusCode(500, new { message = "An error occurred while retrieving the user" });
+                return BadRequest(new { message = ex.Message });
             }
         }
     }
-
 }

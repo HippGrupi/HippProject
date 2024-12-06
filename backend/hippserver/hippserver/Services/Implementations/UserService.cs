@@ -23,38 +23,38 @@ namespace hippserver.Services.Implementations
             _roleManager = roleManager;
         }
 
-        // Get All Users
+       
         public async Task<IEnumerable<UserResponse>> GetAllUsersAsync()
         {
-            var users = await _userRepository.GetAllAsync();
+            var users = await _userRepository.GetAllUsersAsync();
             return users.Select(user => MapToUserResponse(user));
         }
 
-        // Get User by ID
+       
         public async Task<UserResponse?> GetUserByIdAsync(string id)
         {
             var user = await _userRepository.GetByIdAsync(id);
             return user != null ? MapToUserResponse(user) : null;
         }
 
-        // Get Users by Role
+      
         public async Task<IEnumerable<UserResponse>> GetUsersByRoleAsync(string role)
         {
-            var users = await _userRepository.GetByRoleAsync(role);
+            var users = await _userRepository.GetAllUsersFromOneRoleAsync(role);
             return users.Select(user => MapToUserResponse(user));
         }
 
-        // Create a New User
+       
         public async Task<UserResponse> CreateUserAsync(CreateUserRequest request)
         {
-            // Validate role
+           
             if (!await _roleManager.RoleExistsAsync(request.Role))
             {
                 throw new InvalidOperationException($"Role '{request.Role}' does not exist.");
             }
 
 
-            // Create user
+           
             var user = new ApplicationUser
             {
                 UserName = request.Username,
@@ -71,7 +71,7 @@ namespace hippserver.Services.Implementations
                 throw new InvalidOperationException($"Failed to create user: {errors}");
             }
 
-            // Assign role
+           
             var roleResult = await _userManager.AddToRoleAsync(user, request.Role);
             if (!roleResult.Succeeded)
             {
@@ -82,7 +82,7 @@ namespace hippserver.Services.Implementations
             return MapToUserResponse(user);
         }
 
-        // Update a User
+       
         public async Task<UserResponse> UpdateUserAsync(string id, UpdateUserRequest request)
         {
             var user = await _userRepository.GetByIdAsync(id);
@@ -105,7 +105,7 @@ namespace hippserver.Services.Implementations
             return MapToUserResponse(user);
         }
 
-        // Delete a User
+        
         public async Task<bool> DeleteUserAsync(string id)
         {
             var user = await _userRepository.GetByIdAsync(id);
@@ -118,7 +118,7 @@ namespace hippserver.Services.Implementations
             return deleteResult.Succeeded;
         }
 
-        // Change Password
+       
         public async Task<bool> ChangePasswordAsync(string id, ChangePasswordRequest request)
         {
             var user = await _userRepository.GetByIdAsync(id);
