@@ -138,7 +138,7 @@ namespace hippserver
             
             
             services.AddScoped<IUserRepository, UserRepository>();
-
+            services.AddScoped<IManagerService, ManagerService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IJwtService, JwtService>();
 
