@@ -7,91 +7,71 @@ using hippserver.Services.Interfaces;
 
 namespace hippserver.Services.Implementations
 {
-    public class UserService : BaseService<ApplicationUser>, IUserService
+    public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ILogger<UserService> _logger;
         private readonly RoleManager<ApplicationRole> _roleManager;
 
         public UserService(
             IUserRepository userRepository,
             UserManager<ApplicationUser> userManager,
-            ILogger<UserService> logger,
-            RoleManager<ApplicationRole> roleManager) : base(userRepository)
+            RoleManager<ApplicationRole> roleManager)
         {
             _userRepository = userRepository;
             _userManager = userManager;
-            _logger = logger;
             _roleManager = roleManager;
-
         }
 
-        public async Task<IEnumerable<UserResponse>> GetAllAsync()
+        // Get All Users
+        public async Task<IEnumerable<UserResponse>> GetAllUsersAsync()
         {
             var users = await _userRepository.GetAllAsync();
-            return users.Select(MapToUserResponse);
+            return users.Select(user => MapToUserResponse(user));
         }
 
-        public async Task<UserResponse?> GetByIdAsync(string id)
+        // Get User by ID
+        public async Task<UserResponse?> GetUserByIdAsync(string id)
         {
             var user = await _userRepository.GetByIdAsync(id);
             return user != null ? MapToUserResponse(user) : null;
         }
 
-        public async Task<UserResponse?> GetByEmailAsync(string email)
+        // Get Users by Role
+        public async Task<IEnumerable<UserResponse>> GetUsersByRoleAsync(string role)
         {
-            var user = await _userRepository.GetByEmailAsync(email);
-            return user != null ? MapToUserResponse(user) : null;
+            var users = await _userRepository.GetByRoleAsync(role);
+            return users.Select(user => MapToUserResponse(user));
         }
 
-        public async Task<UserResponse?> GetByUsernameAsync(string username)
-        {
-            var user = await _userRepository.GetByUsernameAsync(username);
-            return user != null ? MapToUserResponse(user) : null;
-        }
-
-        public async Task<IEnumerable<UserResponse>> GetByRoleAsync(string roleName)
-        {
-            var users = await _userRepository.GetByRoleAsync(roleName);
-            return users.Select(MapToUserResponse);
-        }
-
+        // Create a New User
         public async Task<UserResponse> CreateUserAsync(CreateUserRequest request)
         {
+            // Validate role
             if (!await _roleManager.RoleExistsAsync(request.Role))
             {
                 throw new InvalidOperationException($"Role '{request.Role}' does not exist.");
             }
 
-            if (await _userRepository.IsEmailUniqueAsync(request.Email) == false)
-            {
-                throw new InvalidOperationException("Email is already in use");
-            }
 
-            if (await _userRepository.IsUsernameUniqueAsync(request.Username) == false)
-            {
-               
-                throw new InvalidOperationException("Username is already in use");
-            }
-
+            // Create user
             var user = new ApplicationUser
             {
                 UserName = request.Username,
                 Email = request.Email,
                 FirstName = request.FirstName ?? string.Empty,
                 LastName = request.LastName ?? string.Empty,
-                EmailConfirmed = true,
-                //Role = request.Role,
+                EmailConfirmed = true
             };
 
-            var result = await _userManager.CreateAsync(user, request.Password);
-            if (!result.Succeeded)
+            var createResult = await _userManager.CreateAsync(user, request.Password);
+            if (!createResult.Succeeded)
             {
-                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-               
+                var errors = string.Join(", ", createResult.Errors.Select(e => e.Description));
                 throw new InvalidOperationException($"Failed to create user: {errors}");
             }
+
+            // Assign role
             var roleResult = await _userManager.AddToRoleAsync(user, request.Role);
             if (!roleResult.Succeeded)
             {
@@ -102,116 +82,60 @@ namespace hippserver.Services.Implementations
             return MapToUserResponse(user);
         }
 
+        // Update a User
         public async Task<UserResponse> UpdateUserAsync(string id, UpdateUserRequest request)
         {
-            
-
             var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
             {
-               
-                throw new InvalidOperationException("User not found");
+                throw new InvalidOperationException("User not found.");
             }
 
             user.FirstName = request.FirstName ?? user.FirstName;
             user.LastName = request.LastName ?? user.LastName;
             user.Email = request.Email ?? user.Email;
 
-            var result = await _userManager.UpdateAsync(user);
-            if (!result.Succeeded)
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
             {
-                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                
+                var errors = string.Join(", ", updateResult.Errors.Select(e => e.Description));
                 throw new InvalidOperationException($"Failed to update user: {errors}");
             }
 
-          
             return MapToUserResponse(user);
         }
 
-        public async Task<bool> DeleteAsync(string id)
+        // Delete a User
+        public async Task<bool> DeleteUserAsync(string id)
         {
-           
-
             var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
             {
-               
                 return false;
             }
 
-            var result = await _userManager.DeleteAsync(user);
-            if (!result.Succeeded)
-            {
-                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                
-                return false;
-            }
-
-         
-            return true;
+            var deleteResult = await _userManager.DeleteAsync(user);
+            return deleteResult.Succeeded;
         }
 
+        // Change Password
         public async Task<bool> ChangePasswordAsync(string id, ChangePasswordRequest request)
         {
-            _logger.LogInformation("Changing password for user with ID: {UserId}", id);
-
             var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
             {
-                _logger.LogWarning("User not found with ID: {UserId}", id);
-                throw new InvalidOperationException("User not found");
+                throw new InvalidOperationException("User not found.");
             }
 
-            var result = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
-            if (!result.Succeeded)
-            {
-                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                _logger.LogError("Failed to change password. Errors: {Errors}", errors);
-            }
-
-            return result.Succeeded;
+            var changeResult = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+            return changeResult.Succeeded;
         }
 
-        public async Task<bool> AdminUpdatePasswordAsync(string userId, AdminUpdatePasswordRequest request)
-        {
-            _logger.LogInformation("Admin updating password for user with ID: {UserId}", userId);
+       
 
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                _logger.LogWarning("User not found with ID: {UserId}", userId);
-                throw new InvalidOperationException("User not found");
-            }
-
-            await _userManager.RemovePasswordAsync(user);
-            var result = await _userManager.AddPasswordAsync(user, request.NewPassword);
-
-            if (!result.Succeeded)
-            {
-                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                _logger.LogError("Failed to update password. Errors: {Errors}", errors);
-                throw new InvalidOperationException($"Failed to set new password: {errors}");
-            }
-
-            _logger.LogInformation("Successfully updated password for user with ID: {UserId}", userId);
-            return true;
-        }
-
-        public async Task<bool> IsEmailUniqueAsync(string email)
-        {
-            return await _userRepository.IsEmailUniqueAsync(email);
-        }
-
-        public async Task<bool> IsUsernameUniqueAsync(string username)
-        {
-            return await _userRepository.IsUsernameUniqueAsync(username);
-        }
-
+        // Map User to UserResponse
         private static UserResponse MapToUserResponse(ApplicationUser user)
         {
-            if (user == null) return null!;
-
             return new UserResponse
             {
                 Id = user.Id,

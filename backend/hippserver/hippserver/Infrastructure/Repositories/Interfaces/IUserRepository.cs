@@ -2,12 +2,16 @@
 
 namespace hippserver.Infrastructure.Repositories.Interfaces
 {
-    public interface IUserRepository : IBaseRepository<ApplicationUser>
+    public interface IUserRepository
     {
-        Task<ApplicationUser?> GetByEmailAsync(string email);
+
+        Task<IEnumerable<ApplicationUser>> GetAllUsersFromOneRoleAsync(string roleName);
+        Task<ApplicationUser?> GetByIdAsync(string userId);
+
         Task<ApplicationUser?> GetByUsernameAsync(string username);
-        Task<IEnumerable<ApplicationUser>> GetByRoleAsync(string roleName);
-        Task<bool> IsEmailUniqueAsync(string email);
-        Task<bool> IsUsernameUniqueAsync(string username);
+        Task AddUserAsync(ApplicationUser user);
+        Task<IEnumerable<ApplicationUser>> GetAllUsersAsync();
+        Task DeleteUserAsync(ApplicationUser user);
+        Task UpdateUserAsync(ApplicationUser user);
     }
 }

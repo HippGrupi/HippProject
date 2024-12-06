@@ -4,14 +4,18 @@ using hippserver.Models.DTOs.Responses;
 
 namespace hippserver.Services.Interfaces
 {
-    public interface IUserService : IBaseService<ApplicationUser>
+    public interface IUserService 
     {
-        Task<UserResponse?> GetByEmailAsync(string email);
-        Task<UserResponse?> GetByUsernameAsync(string username);
-        Task<IEnumerable<UserResponse>> GetByRoleAsync(string roleName);
+        Task<IEnumerable<UserResponse>> GetAllUsersAsync();
+        Task<UserResponse?> GetUserByIdAsync(string id);
+        
+        Task<IEnumerable<UserResponse>> GetUsersByRoleAsync(string role);
+        
         Task<UserResponse> CreateUserAsync(CreateUserRequest request);
         Task<UserResponse> UpdateUserAsync(string id, UpdateUserRequest request);
+        Task<bool> DeleteUserAsync(string id);
+
         Task<bool> ChangePasswordAsync(string id, ChangePasswordRequest request);
-        Task<bool> AdminUpdatePasswordAsync(string userId, AdminUpdatePasswordRequest request);
+       
     }
 }

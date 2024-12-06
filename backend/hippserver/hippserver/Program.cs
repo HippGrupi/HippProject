@@ -1,154 +1,37 @@
-using DotNetEnv;
-using Microsoft.Data.SqlClient;
-using System.Data;
-using hippserver.Helpers;
-using hippserver.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using hippserver.Models.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using hippserver.Configurations;
-using hippserver.Services.Interfaces;
-using hippserver.Services.Implementations;
+using hippserver.Infrastructure.Data;
 using hippserver.Infrastructure.Repositories.Implementations;
 using hippserver.Infrastructure.Repositories.Interfaces;
+using hippserver.Models.Entities;
+using hippserver.Services.Implementations;
+using hippserver.Services.Interfaces;
+using hippserver.Models.Domain;
+using System.Security.Claims;
 
 namespace hippserver
 {
     public class Program
     {
-        //=================
-        //MAIN METHOD
-        //=================
+       
 
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-           
-            Env.Load();
-
-
-
-           
-            ConfigureServices(builder.Services, builder.Configuration);
-
-            var app = builder.Build();
-
-           
-            await SeedDataAsync(app);
-
-
-            // Configure middleware
-            ConfigureMiddleware(app);
-
-            app.Run();
-        }
-
-
-        //===================
-        //DATA SEEDER
-        //===================
-        private static async Task SeedDataAsync(WebApplication app)
-        {
-            using var scope = app.Services.CreateScope();
-            var services = scope.ServiceProvider;
-            try
-            {
-                var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogInformation("Starting data seeding process...");
-
-                var seeder = services.GetRequiredService<DataSeeder>();
-                await seeder.SeedAsync();
-
-                logger.LogInformation("Data seeding completed.");
-            }
-            catch (Exception ex)
-            {
-                var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "An error occurred while seeding the database");
-            }
-        }
-
-        //==================
-        //Configure Services
-        //==================
-
-        private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
-        {
-
-            services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
             
 
+            // Add services to the container
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
-            // Controllers
-            services.AddControllers()
-                    .AddJsonOptions(options =>
-                        {
-                            options.JsonSerializerOptions.ReferenceHandler =                System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-
-                            options.JsonSerializerOptions.PropertyNamingPolicy = null;
-                         });
-
-            // Swagger
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-                {
-                    Title = "HIPP API",
-                    Version = "v1"
-                });
-
-                // Configure Swagger to use JWT
-                c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-                {
-                    Name = "Authorization",
-                    Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT",
-                    In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme."
-                });
-
-                c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
-                {
-                    {
-                        new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-                        {
-                            Reference = new Microsoft.OpenApi.Models.OpenApiReference
-                            {
-                                Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        new string[] {}
-                    }
-                });
-            });
-            
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-
-           
-            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            
-            
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IManagerService, ManagerService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IJwtService, JwtService>();
-
-           
-            services.AddScoped<IDbConnection>(sp =>
-                new SqlConnection(configuration.GetConnectionString("DefaultConnection")));
-
-
-            // Identity
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 5;
@@ -160,81 +43,122 @@ namespace hippserver
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
-            // JWT Settings
-            var jwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>();
+            // Register Repositories
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IBaseRepository<Employee>, BaseRepository<Employee>>();
+            builder.Services.AddScoped<IBaseRepository<Product>, BaseRepository<Product>>();
+            builder.Services.AddScoped<IBaseRepository<Order>, BaseRepository<Order>>();
+            builder.Services.AddScoped<IBaseRepository<Driver>, BaseRepository<Driver>>();
+            builder.Services.AddScoped<IBaseRepository<SalesPerson>, BaseRepository<SalesPerson>>();
 
-            // JWT Authentication
-            services.AddAuthentication(options =>
+            builder.Services.AddScoped<DataSeeder>();
+
+            // Register Services
+            builder.Services.AddScoped<IManagerService, ManagerService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IJwtService, JwtService>();
+
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+              .AddJwtBearer(options =>
+              {
+                  options.TokenValidationParameters = new TokenValidationParameters
+                  {
+                      ValidateIssuer = false,
+                      ValidateAudience = false,
+                      ValidateLifetime = true,
+                      ValidateIssuerSigningKey = true,
+                      ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                      ValidAudience = builder.Configuration["Jwt:Audience"],
+                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                  };
+                  options.Events = new JwtBearerEvents
+                  {
+                      OnTokenValidated = context =>
+                      {
+                          var claimsIdentity = context.Principal.Identity as ClaimsIdentity;
+                          var userClaims = claimsIdentity.Claims;
+                          // Log claims for debugging
+                          Console.WriteLine("Token validated successfully.");
+                          return Task.CompletedTask;
+                      },
+                      OnAuthenticationFailed = context =>
+                      {
+                          // Log the exception
+                          Console.WriteLine("Authentication failed: " + context.Exception.Message);
+                          return Task.CompletedTask;
+                      }
+                  };
+              });
+
+
+
+
+            builder.Services.AddControllers();
+
+           builder.Services.AddSwaggerGen(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(jwtSettings.Secret)),
-                RoleClaimType = "Role"
-                };
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    Description = "Bearer Authentication with JWT Token",
+                    Type = SecuritySchemeType.Http
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Id = "Bearer",
+                                Type = ReferenceType.SecurityScheme
+                            }
+                        },
+                        new List<string>()
+                    }
+                });
             });
 
            
-            
 
-            // Register DataSeeder
-            services.AddScoped<DataSeeder>();
+            // Build the app
+            var app = builder.Build();
 
-            // CORS
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowSpecificOrigins",
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin()
-                               .AllowAnyHeader()
-                               .AllowAnyMethod();
-                    });
-            });
-        }
-
-
-
-        //====================
-        //Configure Middleware
-        //====================
-
-
-        private static void ConfigureMiddleware(WebApplication app)
-        {
+            // Middleware configuration
             if (app.Environment.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "HIPP API V1");
-                });
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();
-            app.UseCors("AllowSpecificOrigins");
 
-            // Authentication & Authorization
+            app.UseCors(options =>
+            {
+                options.AllowAnyHeader();
+                options.AllowAnyOrigin();
+                options.AllowAnyMethod();
+            });
+
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
-            app.Use(async (context, next) =>
+
+            // Database seeding
+            using (var scope = app.Services.CreateScope())
             {
-                var token = context.Request.Headers["Authorization"];
-                Console.WriteLine($"Authorization Header: {token}");
-                await next.Invoke();
-            });
+                var services = scope.ServiceProvider;
+                var dataSeeder = services.GetRequiredService<DataSeeder>();
+                dataSeeder.SeedAsync().GetAwaiter().GetResult();
+            }
+
+            app.Run();
         }
     }
 }

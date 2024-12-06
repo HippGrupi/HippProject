@@ -2,46 +2,74 @@
 using hippserver.Infrastructure.Data;
 using hippserver.Infrastructure.Repositories.Interfaces;
 using hippserver.Models.Entities;
-using Microsoft.AspNetCore.Identity;
 
 namespace hippserver.Infrastructure.Repositories.Implementations
 {
-    public class UserRepository : BaseRepository<ApplicationUser>, IUserRepository
+    public class UserRepository : IUserRepository
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext _context;
 
-        public UserRepository(
-            ApplicationDbContext context,
-            UserManager<ApplicationUser> userManager) : base(context)
+        public UserRepository(ApplicationDbContext context)
         {
-            _userManager = userManager;
+            _context = context;
         }
 
-        public async Task<ApplicationUser?> GetByEmailAsync(string email)
+       
+        public async Task<ApplicationUser?> GetByIdAsync(string userId)
         {
-            return await _userManager.FindByEmailAsync(email);
+            return await _context.Users.FindAsync(userId);
         }
 
+       
         public async Task<ApplicationUser?> GetByUsernameAsync(string username)
         {
-            return await _userManager.FindByNameAsync(username);
+            return await _context.Users.SingleOrDefaultAsync(u => u.UserName == username);
         }
 
-        public async Task<IEnumerable<ApplicationUser>> GetByRoleAsync(string roleName)
+      
+        public async Task<IEnumerable<ApplicationUser>> GetAllUsersFromOneRoleAsync(string roleName)
         {
-            return await _userManager.GetUsersInRoleAsync(roleName);
+          
+            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Name == roleName);
+            if (role == null) return Enumerable.Empty<ApplicationUser>();
+
+            var userRoleMappings = await _context.UserRoles
+                .Where(ur => ur.RoleId == role.Id)
+                .ToListAsync();
+
+            var userIds = userRoleMappings.Select(ur => ur.UserId);
+            return await _context.Users
+                .Where(u => userIds.Contains(u.Id))
+                .ToListAsync();
         }
 
-        public async Task<bool> IsEmailUniqueAsync(string email)
+
+        public async Task AddUserAsync(ApplicationUser user)
         {
-            var user = await GetByEmailAsync(email);
-            return user == null;
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> IsUsernameUniqueAsync(string username)
+       
+        public async Task<IEnumerable<ApplicationUser>> GetAllUsersAsync()
         {
-            var user = await GetByUsernameAsync(username);
-            return user == null;
+            return await _context.Users.ToListAsync();
         }
+
+       
+        public async Task DeleteUserAsync(ApplicationUser user)
+        {
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+        }
+
+       
+        public async Task UpdateUserAsync(ApplicationUser user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+        }
+
+       
     }
 }
