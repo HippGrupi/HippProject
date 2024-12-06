@@ -1,53 +1,77 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
 using hippserver.Configurations;
-using hippserver.Services.Interfaces;
 using hippserver.Models.Entities;
+using hippserver.Services.Interfaces;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
-namespace hippserver.Services.Implementations
+public class JwtService : IJwtService
 {
-    public class JwtService : IJwtService
-    {
-        private readonly JwtSettings _jwtSettings;
+    private readonly JwtSettings _jwtSettings;
 
-        public JwtService(JwtSettings jwtSettings)
+    public JwtService(IOptions<JwtSettings> jwtSettings)
+    {
+        _jwtSettings = jwtSettings.Value;
+    }
+
+    public string GenerateToken(ApplicationUser user, IList<string> roles)
+    {
+        var claims = new List<Claim>
         {
-            _jwtSettings = jwtSettings;
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim("Id", user.Id),
+            new Claim("FirstName", user.FirstName),
+            new Claim("LastName", user.LastName)
+        };
+
+        // Add roles to claims
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
         }
 
-        public string GenerateToken(ApplicationUser user, IList<string> roles)
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
+        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(
+            issuer: _jwtSettings.Issuer,
+            audience: _jwtSettings.Audience,
+            claims: claims,
+            signingCredentials: credentials
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public ClaimsPrincipal ValidateToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.UTF8.GetBytes(_jwtSettings.Secret);
+
+        try
         {
-            var claims = new List<Claim>
+            var principal = tokenHandler.ValidateToken(token, new TokenValidationParameters
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim("Id",user.Id),
-                new Claim("FirstName", user.FirstName),
-                new Claim("LastName", user.LastName)
-            };
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = _jwtSettings.Issuer,
+                ValidAudience = _jwtSettings.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(key)
+            }, out _);
 
-            // Add roles to claims
-            foreach (var role in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddMinutes(_jwtSettings.ExpirationInMinutes);
-
-            var token = new JwtSecurityToken(
-                issuer: _jwtSettings.Issuer,
-                audience: _jwtSettings.Audience,
-                claims: claims,
-                expires: expires,
-                signingCredentials: credentials
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return principal;
+        }
+        catch
+        {
+            return null; // Invalid token
         }
     }
 }

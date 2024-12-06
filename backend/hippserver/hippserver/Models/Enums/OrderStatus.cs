@@ -1,4 +1,4 @@
-﻿namespace hippserver.Models.Domain
+﻿namespace hippserver.Models.Enums
 {
     public enum OrderStatus
     {

@@ -1,4 +1,6 @@
-﻿namespace hippserver.Models.Domain
+﻿using hippserver.Models.Enums;
+
+namespace hippserver.Models.Domain
 {
     public class Employee
     {

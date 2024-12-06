@@ -79,6 +79,11 @@ namespace hippserver
         private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
 
+            services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+            
+
+
+
             // Controllers
             services.AddControllers()
                     .AddJsonOptions(options =>
@@ -181,9 +186,8 @@ namespace hippserver
                 };
             });
 
-            // Register JWT Service
-            services.AddSingleton<JwtSettings>();
-            services.AddScoped<IJwtService, JwtService>();
+           
+            
 
             // Register DataSeeder
             services.AddScoped<DataSeeder>();

@@ -1,4 +1,5 @@
 ﻿using hippserver.Models.Domain;
+using hippserver.Models.Enums;
 
 namespace hippserver.Models.JunctionTables
 {
